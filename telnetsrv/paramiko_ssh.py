@@ -1,3 +1,4 @@
+import sys
 import logging
 #from binascii import hexlify
 from threading import Thread

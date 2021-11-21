@@ -512,7 +512,11 @@ class TelnetHandlerBase(BaseRequestHandler):
     def setterm(self, term):
         "Set the curses structures for this terminal"
         log.debug("Setting termtype to %s" % (term, ))
-        curses.setupterm(term) # This will raise if the termtype is not supported
+        try:
+            curses.setupterm(term) # This will raise if the termtype is not supported
+        except TypeError:
+            term = 'ansi'
+            curses.setupterm(term)
         self.TERM = term
         self.ESCSEQ = {}
         for k in self.KEYS.keys():
@@ -947,7 +951,7 @@ class TelnetHandlerBase(BaseRequestHandler):
         """
         if params:
             cmd = params[0].upper()
-            if self.COMMANDS.has_key(cmd):
+            if self.COMMANDS.__contains__(cmd):
                 method = self.COMMANDS[cmd]
                 doc = method.__doc__.split("\n")
                 docp = doc[0].strip()
@@ -982,7 +986,7 @@ class TelnetHandlerBase(BaseRequestHandler):
             else:
                 docps = "- %s" % (docs, )
             self.writeline(
-                "%s %s" % (
+                "%-10s %s" % (
                     cmd,
                     docps,
                 )

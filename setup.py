@@ -1,3 +1,4 @@
+import setuptools
 from distutils.core import setup
 
 def readme():
@@ -7,7 +8,7 @@ def readme():
 setup(
     name = "telnetsrv3",
     packages = ["telnetsrv"],
-    version = "0.5",
+    version = "0.6b",
     extras_require = {
         'green': ['gevent'],
         'ssh': ['paramiko'],
